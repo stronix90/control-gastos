@@ -1,48 +1,39 @@
-import { db } from "../conexion.js";
-import { collection, getDocs, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { getCategoriesDB } from "../services/db.js";
 
 function Categorias() {
-  const [categorias, setCategorias] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
-  const formatearYSetear = (arrayDeDocumentos) => {
+  const getCategories = async () => {
+    const categories = await getCategoriesDB();
+    setCategories(categories);
     setLoading(false);
-    const categoriasTemp = arrayDeDocumentos.map((documento) => {
-      return { ...documento.data(), id: documento.id };
-    });
-    setCategorias(categoriasTemp);
-    localStorage.setItem("categorias", JSON.stringify(categoriasTemp));
-  };
-
-  const getCategoriasDB = async () => {
-    const categoriasCollection = collection(db, "categorias");
-    const categoriasQuery = query(categoriasCollection);
-    const consulta = await getDocs(categoriasQuery);
-    formatearYSetear(consulta.docs);
   };
 
   useEffect(() => {
-    getCategoriasDB();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getCategories();
   }, []);
 
-  if (!loading) {
-    return (
-      <>
-        <option value="">Seleccione una categoria</option>
-        {categorias.map((element, index) => {
-          return (
-            <option key={index} value={element.categoria}>
-              {element.icon} {element.categoria}
-            </option>
-          );
-        })}
-      </>
-    );
-  } else {
-    return <></>;
-  }
+  useEffect(() => {
+    localStorage.setItem("categorias", JSON.stringify(categories));
+  }, [categories]);
+
+  if (loading) return <option>Cargando...</option>;
+
+  return (
+    <>
+      <option value="">Seleccione una categoria</option>
+      {categories.map((element, index) => {
+        return (
+          <option key={index} value={element.categoria}>
+            {element.icon} {element.categoria}
+          </option>
+        );
+      })}
+    </>
+  );
 }
 
 export default Categorias;
