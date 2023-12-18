@@ -1,7 +1,7 @@
 import RecordsContainer from "./RecordsContainer.js";
 import Resume from "./Resume.js";
 import Form from "./Form.js";
-import CustomModal from "./Modal.js";
+import CustomModal from "./CustomModal.js";
 
 const Home = () => {
   return (

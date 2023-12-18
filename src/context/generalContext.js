@@ -100,13 +100,13 @@ const GeneralProvider = ({ children }) => {
     const totalPerUser = {};
     records.forEach(({ monto, persona }) => {
       // Total
-      total += monto;
+      total += Number(monto);
 
       // Total per user
       if (totalPerUser[persona.name]) {
-        totalPerUser[persona.name] += monto;
+        totalPerUser[persona.name] += Number(monto);
       } else {
-        totalPerUser[persona.name] = monto;
+        totalPerUser[persona.name] = Number(monto);
       }
     });
 

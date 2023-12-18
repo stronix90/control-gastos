@@ -28,7 +28,7 @@ export default function CustomModal() {
       </Modal.Header>
       <Modal.Body>
         <b>Usuario</b>
-        <p style={{ fontSize: "14px" }}>{record.persona.name}</p>
+        <p style={{ fontSize: "14px" }}>{record.persona?.name}</p>
         <b>Categoria</b>
         <p style={{ fontSize: "14px" }}>
           {record.icon}

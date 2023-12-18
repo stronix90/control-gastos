@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useGeneral } from "../context/generalContext";
 import { Button, Modal } from "react-bootstrap";
+import { convertToMoney } from "../auxiliar/general";
 
 const Records = ({ record, openModal }) => {
   let startX;
@@ -66,7 +67,7 @@ const Records = ({ record, openModal }) => {
                 " " +
                 new Date(record.date).getDate()}
           </p>
-          <p className="text_amount">${record.monto}</p>
+          <p className="text_amount">{convertToMoney(record.monto)}</p>
         </div>
       </div>
     </div>

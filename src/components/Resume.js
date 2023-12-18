@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Card } from "react-bootstrap";
 import { useGeneral } from "../context/generalContext";
+import { convertToMoney } from "../auxiliar/general";
 
 export default function Resume() {
   const { resume } = useGeneral();
@@ -8,17 +9,6 @@ export default function Resume() {
   const porcentajes = {
     "Brian Luna": 60,
     "Noelia Torres": 40,
-  };
-
-  const convertToMoney = (value) => {
-    const options = {
-      style: "decimal",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    };
-    if (!value) return 0;
-
-    return value.toLocaleString("es-ES", options);
   };
 
   return (
@@ -49,7 +39,7 @@ export default function Resume() {
           >
             <Card.Body>
               <Card.Title>Gasto total</Card.Title>
-              <Card.Text>${convertToMoney(resume.total)}</Card.Text>
+              <Card.Text>{convertToMoney(resume.total)}</Card.Text>
             </Card.Body>
           </Card>
 
@@ -80,12 +70,12 @@ export default function Resume() {
                       gap: "1rem",
                     }}
                   >
-                    <p style={{ margin: 0 }}>Gastó: ${convertToMoney(gasto)}</p>
+                    <p style={{ margin: 0 }}>Gastó: {convertToMoney(gasto)}</p>
                     <p style={{ margin: 0 }}>
-                      {porcentaje} del total: ${convertToMoney(corresponde)}
+                      {porcentaje} del total: {convertToMoney(corresponde)}
                     </p>
                     <p style={{ margin: 0 }}>
-                      Diferencia: ${convertToMoney(diferencia)}
+                      Diferencia: {convertToMoney(diferencia)}
                     </p>
                   </div>
                 </Card.Body>
