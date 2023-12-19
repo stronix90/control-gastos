@@ -27,7 +27,9 @@ const UserAuth = () => {
     if (isLogin) login(user.email, user.password);
     else {
       if (user.password !== user.password2) {
-        toast.warn("Las contraseñas ingresadas no coinciden", { theme: "dark" });
+        toast.warn("Las contraseñas ingresadas no coinciden", {
+          theme: "dark",
+        });
         return;
       }
 
@@ -36,7 +38,15 @@ const UserAuth = () => {
         return;
       }
 
-      signUp(user.firstName, user.lastName, user.email, user.password, "BL", "0000FF", "https://mario.wiki.gallery/images/0/01/MKT_174CB.png");
+      signUp(
+        user.firstName,
+        user.lastName,
+        user.email,
+        user.password,
+        "BL",
+        "0000FF",
+        "https://mario.wiki.gallery/images/0/01/MKT_174CB.png"
+      );
     }
   };
 
@@ -45,7 +55,8 @@ const UserAuth = () => {
   const handlerLoginWithGoogle = () => loginWithGoogle();
 
   const handlerResetPassword = async () => {
-    if (!user.email) return toast.warn("Por favor, ingresar un email", { theme: "dark" });
+    if (!user.email)
+      return toast.warn("Por favor, ingresar un email", { theme: "dark" });
 
     resetPassword(user.email)
       .then(() => toast("Revise su casilla de email", { theme: "dark" }))

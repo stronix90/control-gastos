@@ -1,6 +1,7 @@
 import RecordsContainer from "./RecordsContainer.js";
 import Resume from "./Resume.js";
 import Form from "./Form.js";
+import CustomModal from "./Modal.js";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <Form />
       <RecordsContainer />
       <Resume />
+      <CustomModal />
     </div>
   );
 };

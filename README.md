@@ -1,3 +1,5 @@
 TODO
 
 - Crear un readme
+
+OPTIMIZAR EL RECORD MODAL

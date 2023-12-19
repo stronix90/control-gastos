@@ -9,7 +9,6 @@ import {
   query,
   orderBy,
   onSnapshot,
-  Timestamp,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { getCategoriesDB } from "../services/db";
@@ -33,6 +32,11 @@ const GeneralProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [resume, setResume] = useState({ total: 0, totalPerUser: {} });
 
+  const [recordModal, setRecordModal] = useState({
+    show: false,
+    record: {},
+  });
+
   const postRecords = (records) => {
     setRecords(records);
   };
@@ -49,6 +53,7 @@ const GeneralProvider = ({ children }) => {
     if (del) {
       await deleteDoc(doc(db, collection, id));
       toast.success("Registro borrado con exito", { theme: "dark" });
+      return true;
     }
   };
 
@@ -113,6 +118,8 @@ const GeneralProvider = ({ children }) => {
     setCategories(categories);
   };
 
+  const closeModal = () => setRecordModal({ ...recordModal, show: false });
+
   const contextValues = {
     records,
     dateFilter,
@@ -125,6 +132,9 @@ const GeneralProvider = ({ children }) => {
     editingRecord,
     categories,
     resume,
+    recordModal,
+    setRecordModal,
+    closeModal,
   };
 
   return <Provider value={contextValues}>{children}</Provider>;

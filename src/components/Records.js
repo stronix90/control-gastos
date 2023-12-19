@@ -1,7 +1,12 @@
+import { useRef } from "react";
 import { useGeneral } from "../context/generalContext";
+import { Button, Modal } from "react-bootstrap";
 
 const Records = ({ record, openModal }) => {
-  const { delRecord, setEditingRecord } = useGeneral();
+  let startX;
+  let startY;
+
+  const { setRecordModal } = useGeneral();
 
   const daysName = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
 
@@ -12,110 +17,58 @@ const Records = ({ record, openModal }) => {
     })
     .join("");
 
-  const delEntry = async () => {
-    delRecord("gastos", record.id);
+  const handleTouchStart = (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
   };
 
-  const editEntry = () => {
-    setEditingRecord({ state: true, record: record });
+  const handleTouchEnd = (e) => {
+    const currentX = e.changedTouches[0].clientX;
+    const currentY = e.changedTouches[0].clientY;
+    const deltaX = currentX - startX;
+    const deltaY = currentY - startY;
+
+    if (deltaX > 0 && deltaX > deltaY) {
+      setRecordModal({
+        show: true,
+        record,
+      });
+    }
   };
 
   return (
-    <>
-      <div className="row record">
-        {/* // Avatars */}
-        <div className="col-auto my-auto d-flex flex-column align-items-center ps-0">
-          <div className="mainAvatar">{iniciales}</div>
-          <div className="secondAvatar">{record.icon}</div>
-        </div>
-
-        {/* // 2da columna */}
-        <div className="col px-0 details_column">
-          <p className="text_primary">
-            {record.description ? `${record.description}` : record.categoria}
-          </p>
-
-          <div className="details_extra">
-            <p className="text_secondary">
-              {record.description
-                ? daysName[new Date(record.date).getDay()] +
-                  " " +
-                  new Date(record.date).getDate() +
-                  " | " +
-                  record.categoria
-                : daysName[new Date(record.date).getDay()] +
-                  " " +
-                  new Date(record.date).getDate()}
-            </p>
-            <p className="text_amount">${record.monto}</p>
-          </div>
-        </div>
-
-        {/* // Acciones */}
-        {/* <div className="col-auto my-auto ms-auto">
-        <i
-          style={{ cursor: "pointer" }}
-          className="fa fa-trash"
-          aria-hidden="true"
-          onClick={delEntry}
-        ></i>
-        <i
-          style={{ cursor: "pointer", marginLeft: "10px" }}
-          className="fa fa-edit"
-          aria-hidden="true"
-          onClick={editEntry}
-        ></i>
-      </div> */}
-
-        {/* // Monto */}
-        {/* <div className="col-auto my-auto text_amount">${record.monto}</div> */}
-      </div>
-    </>
-  );
-
-  return (
-    <div className="row">
+    <div
+      className="row record"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* // Avatars */}
-      <div className="col-auto my-auto d-flex flex-column align-items-end ">
+      <div className="col-auto my-auto d-flex flex-column align-items-center ps-0">
         <div className="mainAvatar">{iniciales}</div>
         <div className="secondAvatar">{record.icon}</div>
       </div>
 
-      {/* // Descripción */}
-      <div className="col my-auto px-0">
-        <p>{record.description ? `${record.description}` : record.categoria}</p>
-
-        <p className="text_secondary">
-          {record.description
-            ? daysName[new Date(record.date).getDay()] +
-              " " +
-              new Date(record.date).getDate() +
-              " | " +
-              record.categoria
-            : daysName[new Date(record.date).getDay()] +
-              " " +
-              new Date(record.date).getDate()}
+      {/* // 2da columna */}
+      <div className="col px-0 details_column">
+        <p className="text_primary">
+          {record.description ? `${record.description}` : record.categoria}
         </p>
-      </div>
 
-      {/* // Acciones */}
-      <div className="col-auto my-auto ms-auto">
-        <i
-          style={{ cursor: "pointer" }}
-          className="fa fa-trash"
-          aria-hidden="true"
-          onClick={delEntry}
-        ></i>
-        <i
-          style={{ cursor: "pointer", marginLeft: "10px" }}
-          className="fa fa-edit"
-          aria-hidden="true"
-          onClick={editEntry}
-        ></i>
+        <div className="details_extra">
+          <p className="text_secondary">
+            {record.description
+              ? daysName[new Date(record.date).getDay()] +
+                " " +
+                new Date(record.date).getDate() +
+                " | " +
+                record.categoria
+              : daysName[new Date(record.date).getDay()] +
+                " " +
+                new Date(record.date).getDate()}
+          </p>
+          <p className="text_amount">${record.monto}</p>
+        </div>
       </div>
-
-      {/* // Monto */}
-      <div className="col-auto my-auto text_amount">${record.monto}</div>
     </div>
   );
 };
