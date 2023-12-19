@@ -26,10 +26,10 @@ const Records = ({ record, openModal }) => {
   const handleTouchEnd = (e) => {
     const currentX = e.changedTouches[0].clientX;
     const currentY = e.changedTouches[0].clientY;
-    const deltaX = currentX - startX;
-    const deltaY = currentY - startY;
+    const deltaX = Math.abs(currentX - startX);
+    const deltaY = Math.abs(currentY - startY);
 
-    if (deltaX > 0 && deltaX > deltaY) {
+    if (deltaX > 150 && deltaY < 100 && deltaX > deltaY) {
       setRecordModal({
         show: true,
         record,

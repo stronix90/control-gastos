@@ -187,3 +187,16 @@ body {
   border-radius: 50%;
   padding: 1rem 0;
 }
+
+.modal-content {
+  background-color: #1e1e1e !important;
+  color: #c9c9c9;
+}
+
+.modal-header {
+  border-bottom: 1px solid #292929 !important;
+}
+
+.modal-footer {
+  border-top: 1px solid #292929 !important;
+}

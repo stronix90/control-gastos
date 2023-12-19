@@ -20,12 +20,14 @@ export default function CustomModal() {
       show={show}
       onHide={closeModal}
       backdrop="static"
-      aria-labelledby="contained-modal-title-vcenter"
+      aria-labelledby="contained-modal-title-vcenter dark"
       centered
+      data-bs-theme="dark"
     >
       <Modal.Header closeButton>
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
         <b>Usuario</b>
         <p style={{ fontSize: "14px" }}>{record.persona?.name}</p>
@@ -39,24 +41,28 @@ export default function CustomModal() {
         <b>Monto</b>
         <p style={{ fontSize: "14px" }}>${record.monto}</p>
       </Modal.Body>
+
       <Modal.Footer>
-        <div className="col-auto my-auto ms-auto gap-6">
+        <div
+          className="col-auto my-auto ms-auto d-flex"
+          style={{ gap: "1.5rem" }}
+        >
           <i
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
             className="fa fa-trash"
             aria-hidden="true"
             onClick={delEntry}
           ></i>
           <i
-            style={{ cursor: "pointer", marginLeft: "10px" }}
+            style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
             className="fa fa-edit"
             aria-hidden="true"
             onClick={editEntry}
           ></i>
+          <Button variant="secondary" onClick={closeModal}>
+            Close
+          </Button>
         </div>
-        <Button variant="secondary" onClick={closeModal}>
-          Close
-        </Button>
       </Modal.Footer>
     </Modal>
   );
