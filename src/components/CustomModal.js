@@ -19,7 +19,6 @@ export default function CustomModal() {
     <Modal
       show={show}
       onHide={closeModal}
-      backdrop="static"
       aria-labelledby="contained-modal-title-vcenter dark"
       centered
       data-bs-theme="dark"
