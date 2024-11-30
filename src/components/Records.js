@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef } from "react";
 import { useGeneral } from "../context/generalContext";
 import { Button, Modal } from "react-bootstrap";

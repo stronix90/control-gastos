@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../conexion";
 import {
@@ -14,6 +16,16 @@ import { toast } from "react-toastify";
 import { getCategoriesDB } from "../services/db";
 import { formatFirebaseData } from "../auxiliar/formatFirebaseData";
 
+const getInitialDateState = () => {
+  const currentDate = new Date()
+
+  const year = currentDate.getFullYear()
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0")
+  const date = `${year}-${month}`
+
+  return date
+}
+
 const contexto = createContext();
 const { Provider } = contexto;
 
@@ -23,7 +35,10 @@ export const useGeneral = () => {
 
 const GeneralProvider = ({ children }) => {
   const [records, setRecords] = useState([]);
-  const [dateFilter, setDateFilter] = useState();
+  const [filter, setFilter] = useState({
+    date: getInitialDateState(),
+    category: "all"
+  });
   const [loadingRecords, setLoadingRecords] = useState(true);
   const [editingRecord, setEditingRecord] = useState({
     state: false,
@@ -58,28 +73,30 @@ const GeneralProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getCategories();
-
-    // Establece la fecha actual como filtro
-    const currentDate = new Date();
-    let currentMonth = currentDate.getMonth() + 1;
-    currentMonth =
-      currentMonth.length === 2 ? currentMonth : "0" + currentMonth;
-    setDateFilter(`${currentDate.getFullYear()}-${currentMonth}`);
-  }, []);
+    getCategories()
+  }, [])
 
   useEffect(() => {
-    if (!dateFilter || categories.length === 0) return;
+    if (!filter.date || !filter.category || categories.length === 0) return;
 
-    const recordColl = collection(db, "gastos");
-    const [y, m] = dateFilter.split("-");
-    const date1 = new Date(y, m - 1, 1);
-    const date2 = new Date(y, m, 1);
+    const whereConditions = []
 
-    const w2 = where("date", ">=", date1);
-    const w3 = where("date", "<=", date2);
-    const q = query(recordColl, w2, w3, orderBy("date", "desc"));
+    const recordColl = collection(db, "gastos")
 
+    // Date filters
+    const [y, m] = filter.date.split("-")
+    const date1 = new Date(y, m - 1, 1)
+    const date2 = new Date(y, m, 1)
+
+    whereConditions.push(where("date", ">=", date1))
+    whereConditions.push(where("date", "<=", date2))
+
+    // Category filter
+    if (filter.category !== "all") {
+      whereConditions.push(where("categoria", "==", filter.category))
+    }
+
+    const q = query(recordColl, ...whereConditions, orderBy("date", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const records = formatFirebaseData(querySnapshot.docs);
       const recordsWithIcon = records.map((record) => {
@@ -92,9 +109,10 @@ const GeneralProvider = ({ children }) => {
       setRecords(recordsWithIcon);
       setLoadingRecords(false);
     });
-  }, [dateFilter, categories]);
+  }, [filter, categories]);
 
   useEffect(() => {
+    console.log("Hasta acá llega sin problemas")
     let total = 0;
 
     const totalPerUser = {};
@@ -122,8 +140,8 @@ const GeneralProvider = ({ children }) => {
 
   const contextValues = {
     records,
-    dateFilter,
-    setDateFilter,
+    filter,
+    setFilter,
     loadingRecords,
     postRecords,
     editRecord,

@@ -1,3 +1,5 @@
+'use client'
+
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useUserAuth } from "../context/userAuthContext";
@@ -53,18 +55,21 @@ export default function Form() {
           persona: {
             name: user.displayName,
             email: user.email,
+            usuario: user.uid
           },
           monto: monto,
           description: descripcion,
           categoria: categoria,
           date: serverTimestamp(),
+          grupo: "PPk07q43McWa8svDhGYc"
         };
+        console.log(newRecord)
         await addDoc(collection(db, "gastos"), newRecord);
       }
       toast.success("Registro guardado con exito", { theme: "dark" });
       e.target.reset();
     } catch (error) {
-      toast.error(error.message, { theme: "dark" });
+      toast.error(error, { theme: "dark" });
     }
   };
 

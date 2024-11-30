@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react";
 import { useUserAuth } from "../../context/userAuthContext";
 
@@ -62,6 +64,8 @@ const UserAuth = () => {
       .then(() => toast("Revise su casilla de email", { theme: "dark" }))
       .catch((error) => toast.error(error.message, { theme: "dark" }));
   };
+
+  console.log(user)
 
   return (
     <div className="UserAuth card itemCard">

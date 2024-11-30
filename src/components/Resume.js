@@ -1,3 +1,5 @@
+'use client'
+
 /* eslint-disable @next/next/no-img-element */
 import { Card } from "react-bootstrap";
 import { useGeneral } from "../context/generalContext";

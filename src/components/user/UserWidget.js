@@ -22,7 +22,7 @@ const UserWidget = () => {
               src={user.photoURL}
               alt="Foto de perfil"
             />
-          ) : (<><i className="fa fa-user"></i></>)}
+          ) : (<><i className="fa fa-user">Usuario</i></>)}
         </div >
 
         <Modal
@@ -39,7 +39,7 @@ const UserWidget = () => {
                 src={user.photoURL}
                 alt="Foto de perfil"
               />
-            ) : (<><i className="fa fa-user"></i></>)}
+            ) : (<><i className="fa fa-user">iniciar sesión</i></>)}
             {user && (
               <>u
                 <p className="m-0">

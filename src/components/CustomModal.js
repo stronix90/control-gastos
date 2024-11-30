@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, Modal } from "react-bootstrap";
 import { useGeneral } from "../context/generalContext";
 

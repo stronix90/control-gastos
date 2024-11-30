@@ -1,3 +1,5 @@
+'use client'
+
 /* eslint-disable @next/next/no-img-element */
 import Records from "./Records";
 import { useGeneral } from "../context/generalContext";
